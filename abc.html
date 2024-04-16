@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Eye Test</title>
+<style>
+    canvas {
+        border: 1px solid black;
+        cursor: pointer;
+    }
+    #stereogramContainer {
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<div id="visualAcuityTest">
+    <h2>Visual Acuity Test</h2>
+    <canvas id="acuityCanvas" width="400" height="200"></canvas>
+</div>
+
+<div id="colorVisionTest">
+    <h2>Color Vision Test</h2>
+    <div id="ishiharaPlate"></div>
+</div>
+
+<div id="depthPerceptionTest">
+    <h2>Depth Perception Test</h2>
+    <div id="stereogramContainer">
+        <canvas id="stereogramCanvas" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<script>
+    // Visual Acuity Test (Snellen Chart)
+    const acuityCanvas = document.getElementById('acuityCanvas');
+    const acuityCtx = acuityCanvas.getContext('2d');
+    
+    acuityCtx.font = '20px Arial';
+    acuityCtx.fillText('E', 180, 40); // Top letter
+    acuityCtx.fillText('F', 180, 80); // Second line
+    acuityCtx.fillText('P', 180, 120); // Third line
+    acuityCtx.fillText('T', 180, 160); // Bottom line
+
+    // Color Vision Test (Ishihara Plates)
+    const plates = [
+        '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Ishihara_9.png/300px-Ishihara_9.png">',
+        '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Ishihara_11.png/300px-Ishihara_11.png">',
+        '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Ishihara_16.png/300px-Ishihara_16.png">'
+    ];
+    const ishiharaPlateDiv = document.getElementById('ishiharaPlate');
+    ishiharaPlateDiv.innerHTML = plates[Math.floor(Math.random() * plates.length)];
+
+    // Depth Perception Test (Stereogram)
+    const stereogramCanvas = document.getElementById('stereogramCanvas');
+    const stereogramCtx = stereogramCanvas.getContext('2d');
+    
+    function drawStereogram() {
+        const depth = Math.random() * 50 + 10;
+        stereogramCtx.fillStyle = 'white';
+        stereogramCtx.fillRect(0, 0, stereogramCanvas.width, stereogramCanvas.height);
+        
+        stereogramCtx.fillStyle = 'black';
+        stereogramCtx.font = '30px Arial';
+        stereogramCtx.fillText('Depth Perception Test', 50, 50);
+        stereogramCtx.fillText('Try to see the hidden image!', 50, 100);
+        
+        stereogramCtx.fillStyle = 'black';
+        stereogramCtx.fillRect(100, 100, depth, 100);
+        stereogramCtx.fillStyle = 'white';
+        stereogramCtx.fillRect(100 + depth, 100, stereogramCanvas.width, 100);
+    }
+
+    stereogramCanvas.addEventListener('click', function() {
+        alert('You saw the hidden image!'); // In a real stereogram, the hidden image would be revealed
+    });
+
+    drawStereogram();
+</script>
+</body>
+</html>
